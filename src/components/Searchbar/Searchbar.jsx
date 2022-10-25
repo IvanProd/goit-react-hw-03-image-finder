@@ -1,7 +1,8 @@
-
 import {
-    ButtonSubmit, SearchBox, Head, ButtonIcon, 
-    ButtonText,
+    ButtonSubmit,
+    SearchBox,
+    Head,
+    ButtonIcon, 
     SearchField
 } from "./Searchbar.styled";
 
