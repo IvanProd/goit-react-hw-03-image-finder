@@ -1,10 +1,11 @@
+import { Overlay, Viewbox } from "./Modal.styled"
 
 export const Modal = () => {
     return (
-        <div class="overlay">
-            <div class="modal">
+        <Overlay>
+            <Viewbox>
                 <img src="" alt="" />
-            </div>
-        </div>
+            </Viewbox>
+        </Overlay>
     )
 }

@@ -9,15 +9,15 @@ import {
 export const Header = () => {
     return (
         <Head>
-            <SearchBox class="form">
-                <ButtonSubmit type="submit" class="button">
+            <SearchBox>
+                <ButtonSubmit type="submit">
                     <ButtonIcon/>
                 </ButtonSubmit>
 
                 <SearchField
                     type="text"
                     autocomplete="off"
-                    autofocus
+                    
                     placeholder="Search images and photos"
                 />
             </SearchBox>
