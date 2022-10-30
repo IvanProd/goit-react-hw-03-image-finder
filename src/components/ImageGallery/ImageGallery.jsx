@@ -1,95 +1,19 @@
-import React from "react";
+import { Gallery, GalleryItem } from './Gallery.styled';
+import { ImageGalleryItem } from './ImageGalleryItem';
 
-import { Header } from "components/Searchbar/Searchbar";
-import { GetImage } from "components/API";
-import { Loader } from "components/Loader/Loader";
-
-
-export class Gallery extends React.Component {
-    state = {
-        data: [],
-        searchQuery: '',
-        page: 1,
-        status: 'idle',
-    };
-
-    async componentDidUpdate(prevProps, prevState) {
-        const { searchQuery, page } = this.state;
-
-        if (searchQuery !== prevState.searchQuery || page !== prevState.page) {
-            this.setState({ status: 'loading' });
-            try {
-                const response = await GetImage(searchQuery, page);
-                if (!response.length) {
-                    return this.setState({ status: 'error' });
-                }
-                this.setState(prev => ({ data: prev.data.concat(response) }));
-                this.setState({ status: 'loadmore' });
-                this.scroll();
-            } catch (error) {
-                this.setState({ status: 'error' });
-            }
-        }
-    }
-
-    scroll = () => {
-        const scroll = Scroll.animateScroll;
-        scroll.scrollMore(600);
-    };
-
-    onSubmit = value => {
-        this.setState({ searchQuery: value, page: 1, data: [] });
-    };
-
-    incrementPage = () => {
-        this.setState(prev => ({ page: prev.page + 1 }));
-    };
-
-    render() {
-        const { status } = this.state;
-        if (status === 'idle') {
+export const ImageGallery = ({ data }) => {
+  return (
+    <>
+      <Gallery>
+        {data &&
+          data.map(data => {
             return (
-                <>
-                    <Header onSubmit={this.onSubmit} />
-                </>
+              <GalleryItem key={data.id}>
+                <ImageGalleryItem data={data} />
+              </GalleryItem>
             );
-        }
-        if (status === 'loading') {
-            return (
-                <>
-                    <Header onSubmit={this.onSubmit} />
-                    <ImageGallery data={this.state.data} />
-                    <Loader />
-                </>
-            );
-        }
-        if (status === 'loadmore') {
-            return (
-                <>
-                    <Header onSubmit={this.onSubmit} />
-                    <ImageGallery data={this.state.data} />
-                    <LoadMore incPage={this.incrementPage} />
-                </>
-            );
-        }
-        if (status === 'error') {
-            return (
-                <>
-                    <Header onSubmit={this.onSubmit} />
-                    <Box
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="center"
-                        gridGap={3}
-                        pt={5}
-                    >
-                        <p>
-                            Ups.. Searchquery is not valid or something wrong(( Please try
-                            again.
-                        </p>
-                    </Box>
-                </>
-            );
-        }
-    }
-}
+          })}
+      </Gallery>
+    </>
+  );
+};
